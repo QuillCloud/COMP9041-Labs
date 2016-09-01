@@ -7,7 +7,7 @@ while ($line = <F>) {
 	@x = split /<p>/, $line;
 	$x[1] =~ s/Prerequisite: //g;
 	$x[1] =~ s/<.+?>//g;
-	$x[1] =~ s/\.//g;
+	$x[1] =~ s/[\.\[\]]//g;
 	@get = split / /,$x[1];
     }
 }
@@ -25,7 +25,7 @@ while ($line = <F>) {
         @x = split /<p>/, $line;
         $x[1] =~ s/Prerequisite: //g;
         $x[1] =~ s/<.+?>//g;
-        $x[1] =~ s/\.//g;
+        $x[1] =~ s/[\.\[\]]//g;
         @get = split / /,$x[1];
     }
 }
