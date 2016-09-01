@@ -1,12 +1,12 @@
 #!/usr/bin/perl -w
-@ARGV = <STDIN>;
+@lines = <STDIN>;
 $check = ();
 $i = 0;
-while ($i <= $#ARGV) {
-    $j = int(rand($#ARGV + 1));
+while ($i <= $#lines) {
+    $j = int(rand($#lines + 1));
     if (!$check[$j]) {
 	$check[$j] = 1;
-	print $ARGV[$j];
+	print $lines[$j];
 	$i++;
     }
 }
