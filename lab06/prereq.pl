@@ -1,5 +1,6 @@
 #!/usr/bin/perl -w
 %result = ();
+@get = ();
 $url = "http://www.handbook.unsw.edu.au/postgraduate/courses/2015/$ARGV[0].html";
 open F, "wget -q -O- $url|" or die;
 while ($line = <F>) {
@@ -16,7 +17,7 @@ foreach $r (@get) {
 	$result{$r} = 1;
     }
 }
-
+@get = ();
 $url = "http://www.handbook.unsw.edu.au/undergraduate/courses/2015/$ARGV[0].html\
 ";
 open F, "wget -q -O- $url|" or die;
