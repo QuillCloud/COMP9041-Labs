@@ -1,5 +1,10 @@
 #!/usr/bin/perl -w
-@l=$ARGV[0];
+if ($ARGV[0] eq "-r") {
+    @l=$ARGV[1];
+}
+else {
+    exit 1;
+}
 while (@l) {
     $a = pop(@l);
     @get = ();

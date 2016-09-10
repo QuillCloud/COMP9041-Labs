@@ -8,11 +8,7 @@ try:
         x = str(input())
         x = x.lower()
         number = x.split(' ')
-        x = re.sub('^\d+','',x)
-        x = re.sub('\s+',' ',x)
-        x = re.sub('^\s+','',x)
-        x = re.sub('\s$','',x)
-        x = re.sub('s$','',x)
+        x = re.sub('^\d+|\s+|^\s+|\s$|s$','',x)
         if x in result:
             result[x][0] += int(number[0])
             result[x][1] += 1
