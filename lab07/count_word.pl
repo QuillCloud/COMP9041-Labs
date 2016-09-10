@@ -9,7 +9,7 @@ $word = lc($ARGV[0]);
 foreach $l (@txt){
     $l =~ s/'s/ s/g;
     $l =~ s/[^a-zA-Z]/ /g;
-    @line = split/ /, lc($l);
+    @line = split/\s+/, lc($l);
     foreach $w (@line){
 	if ($w =~ /^$word$/){
 	    $count++;
