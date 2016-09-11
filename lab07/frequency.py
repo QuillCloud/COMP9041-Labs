@@ -1,0 +1,27 @@
+#!/usr/bin/python3
+import sys
+import glob
+import re
+r = []
+for file in glob.glob("poems/*.txt"):
+    r.append(file)
+r.sort()
+for file in r:
+    F = open(file, 'r')
+    w_count = 0
+    t_count = 0
+    line = F.readline()
+    while line:
+        line = line.lower()
+        line = re.sub(r'[^a-z]',' ',line)
+        line = re.sub(r'\'s',' s',line)
+        words = re.split(r'\s+',line)
+        for w in words: 
+            if w != '':
+                t_count +=1
+            if w == sys.argv[1].lower():
+                w_count += 1
+        line = F.readline()
+    file = re.sub(r'_',' ',file)
+    file = re.sub(r'.txt|poems\/','',file)
+    print("{:4d}/{:6d} = {:.9f} {}".format(w_count,t_count,w_count/t_count,file))
