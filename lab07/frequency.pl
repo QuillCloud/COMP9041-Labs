@@ -13,14 +13,14 @@ foreach $file (glob "poems/*.txt") {
 	$l =~ s/'s/ s/g;
 	$l =~ s/[^a-zA-Z]/ /g;
 	@line = split/\s+/, lc($l);
-    foreach $w (@line){
-        if ($w ne "") {
-            $tcount++;
-        }
-        if ($w =~ /^$word$/){
-            $wcount++;
-        }
-    }
+	foreach $w (@line){
+	    if ($w ne "") {
+		$tcount++;
+	    }
+	    if ($w =~ /^$word$/){
+		$wcount++;
+	    }
+	}
     }
     $file =~ s/poems\/|.txt//g;
     $file =~ s/_/ /g;

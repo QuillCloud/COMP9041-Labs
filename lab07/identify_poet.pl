@@ -1,114 +1,69 @@
 #!/usr/bin/perl -w
-if ($ARGV[0] eq "-d") {
-    %arrayd = ();
-    %hashd = ();
-    open(F, $ARGV[1]);
-    @sf = <F>;
-    foreach $sl (@sf) {
-	$sl =~ s/'s/ s/g;
-	$sl =~ s/[^a-zA-Z]/ /g;
-	@sline = split/\s+/, lc($sl);
-	foreach $sw (@sline) {
-	    if ($sw ne "") {
-		if (exists $arrayd{$sw}) {
-		    $arrayd{$sw} = $arrayd{$sw} + 1;
+%totalhash = ();
+foreach $file (glob "poems/*.txt") {
+    open(F, $file);
+    $file =~ s/poems\/|.txt//g;
+    $file =~ s/_/ /g;
+    %{$totalhash{$file}} = ();
+    @f = <F>;
+    $tcount = 0;
+    foreach $line (@f) {
+	$line = lc($line);
+	$line =~ s/[^a-z]/ /g;
+	@words = split/\s+/, $line;
+	foreach $w (@words) {
+	    if ($w ne "") {
+		$tcount++;
+		if (exists $totalhash{$file}{$w}){
+		    $totalhash{$file}{$w}++;
 		}
 		else {
-		    $arrayd{$sw} = 1;
+		    $totalhash{$file}{$w} = 1;
 		}
 	    }
 	}
     }
-    foreach $swords (keys %arrayd) {
-	foreach $file (glob "poems/*.txt") {
-	    open(F, $file);
-	    @f = <F>;
-	    $wcount = 0;
-	    $tcount = 0;
-	    foreach $l (@f){
-		$l =~ s/'s/ s/g;
-		$l =~ s/[^a-zA-Z]/ /g;
-		@line = split/\s+/, lc($l);
-		foreach $w (@line){
-		    if ($w ne "") {
-			$tcount++;
-		    }
-		    if ($w =~ /^$swords$/){
-			$wcount++;
-		    }
-		}
-	    }
-	    $file =~ s/poems\/|.txt//g;
-	    $file =~ s/_/ /g;
-	    if (exists $hashd{$file}) {
-		$hashd{$file} = $hashd{$file} + (log($wcount+1) - log($tcount)) * $arrayd{$swords};
+    foreach $w2 (keys %{$totalhash{$file}}) {
+	$totalhash{$file}{$w2} = log($totalhash{$file}{$w2} + 1) -  log($tcount);
+    }
+    $totalhash{$file}{0} = log(1) - log($tcount);
+}
+
+for $txt (@ARGV) {
+    open(F, $txt);
+    %hash = ();
+    @f = <F>;
+    foreach $line (@f) {
+        $line = lc($line);
+        $line =~ s/[^a-z]/ /g;
+        @words = split/\s+/, $line;
+        foreach $w (@words) {
+            if ($w ne "") {
+                if (exists $hash{$w}){
+                    $hash{$w}++;
+                }
+                else {
+                    $hash{$w} = 1;
+                }
+            }
+        }
+    }
+    $hname = "";
+    $hnumber = "";
+    foreach $filename (keys %totalhash) {
+	$c = 0;
+	foreach $singleword (keys %hash) {
+	    if (exists $totalhash{$filename}{$singleword}) {
+		$c = $c +  $totalhash{$filename}{$singleword}*$hash{$singleword};
 	    }
 	    else {
-		$hashd{$file} = (log($wcount+1) - log($tcount)) * $arrayd{$swords};
+		$c = $c + $totalhash{$filename}{0}*$hash{$singleword};
 	    }
 	}
-    }
-    foreach $keyd (reverse sort {$hashd{$a} <=> $hashd{$b}} keys %hashd) {
-	printf("$ARGV[1]: log_probability of %.1f for %s\n", $hashd{$keyd}, $keyd);
-    }
-    foreach $keyd (reverse sort {$hashd{$a} <=> $hashd{$b}} keys %hashd) {
-        printf("$ARGV[1] most resembles the work of %s (log-probability=%.1f)\n", $keyd, $hashd{$keyd});
-	last;
-    }
-}
-else {
-    foreach $poem (@ARGV) {
-	%array = ();
-	%hashd = ();
-	open(F, $poem);
-	@sf = <F>;
-	foreach $sl (@sf) {
-	    $sl =~ s/'s/ s/g;
-	    $sl =~ s/[^a-zA-Z]/ /g;
-	    @sline = split/\s+/, lc($sl);
-	    foreach $sw (@sline) {
-		if ($sw ne "") {
-		    if (exists $array{$sw}) {
-			$array{$sw} = $array{$sw} + 1;
-		    }
-		    else {
-			$array{$sw} = 1;
-		    }
-		}
-	    }
+	if ($hnumber eq '' or $hnumber < $c) {
+	    $hname = $filename;
+	    $hnumber = $c;
 	}
-	foreach $swords (keys %array) {
-	    foreach $file (glob "poems/*.txt") {
-		open(F, $file);
-		@f = <F>;
-		$wcount = 0;
-		$tcount = 0;
-		foreach $l (@f){
-		    $l =~ s/'s/ s/g;
-		    $l =~ s/[^a-zA-Z]/ /g;
-		    @line = split/\s+/, lc($l);
-		    foreach $w (@line){
-			if ($w ne "") {
-			    $tcount++;
-			}
-			if ($w =~ /^$swords$/){
-			    $wcount++;
-			}
-		    }
-		}
-		$file =~ s/poems\/|.txt//g;
-		$file =~ s/_/ /g;
-		if (exists $hashd{$file}) {
-		    $hashd{$file} = $hashd{$file} + (log($wcount+1) - log($tcount)) * $array{$swords};
-		}
-		else {
-		    $hashd{$file} = (log($wcount+1) - log($tcount)) * $array{$swords};
-		}
-	    }
-	}
-	foreach $keyd (reverse sort {$hashd{$a} <=> $hashd{$b}} keys %hashd) {
-	    printf("$poem most resembles the work of %s (log-probability=%.1f)\n", $keyd, $hashd{$keyd});
-	    last;
-	}   
     }
+    printf("%s most resembles the work of %s (log-probability=%.1f)\n", $txt,$hname,$hnumber);
 }
