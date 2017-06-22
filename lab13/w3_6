@@ -1,0 +1,6 @@
+#!/bin/sh
+while read sid name init
+do
+    mark=`grep $sid Marks | cut -d' ' -f2`
+    echo $mark $name $init
+done <Students

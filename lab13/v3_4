@@ -1,0 +1,9 @@
+#!/usr/bin/perl -w
+
+while ($i = <STDIN>) {
+    if ($i =~ /\|([A-Za-z -]*), ([A-Za-z -]*)\|/) {
+	$a = "$2 $1";
+	$i =~ s/\|[A-Za-z -]*, [A-Za-z -]*\|/\|$a\|/g;
+	print "$i";
+    }
+}

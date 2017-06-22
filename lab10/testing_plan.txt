@@ -1,0 +1,47 @@
+test name:                   valid credit card number
+value in the text field:     4564456445644564
+botton pushed:	  	     Validate	     
+expected response:	     output: 4564456445644564 is valid
+
+test name:		     invalid credit card number
+value in the text field:     9999999999999999
+botton pushed:	  	     Validate
+expected response:	     output: 9999999999999999 is valid
+
+test name: 		     reset button
+value in the text field:     4564456445644564
+botton pushed:               Reset
+expected response:           text field clear
+
+test name:                   invalid credit card number
+value in the text field:     456445644564456
+botton pushed:               Validate
+expected response:           output: 456445644564456 is invalid - does not contain exactly 16 digits
+
+test name:                   XSS attack
+value in the text field:     <img src="http://imgs.xkcd.com/comics/exploits_of_a_mom.png">
+botton pushed:               Validate
+expected response:           <img src="http://imgs.xkcd.com/comics/exploits_of_a_mom.png"> is invalid - does not contain exactly 16 digits
+actual response:	     img src="http://imgs.xkcd.com/comics/exploits_of_a_mom.png" is invalid - does not contain exactly 16 digits
+
+test name:                   close
+value in the text field:     4564456445644564
+botton pushed:               close
+expected response:           only output: Thank you for using the Credit Card Validator.
+
+test name:                   XSS attack
+value in the text field:     "> <img src="http://imgs.xkcd.com/comics/exploits_of_a_mom.png">
+botton pushed:               Validate
+expected response:           "> <img src="http://imgs.xkcd.com/comics/exploits_of_a_mom.png"> is invalid - does not contain exactly 16 digits
+actual response:             " img src="http://imgs.xkcd.com/comics/exploits_of_a_mom.png" is invalid - does not contain exactly 16 digits
+
+
+test name:                   valid credit card number with "-"
+value in the text field:     4564-7953-6021-9047
+botton pushed:               Validate
+expected response:           output: 4564-7953-6021-9047 is valid
+
+test name:                   invalid credit card number with "-"
+value in the text field:     1234-5678-9012-3456
+botton pushed:               Validate
+expected response:           output: 1234-5678-9012-3456 is valid

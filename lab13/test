@@ -1,0 +1,5 @@
+#!/usr/bin/perl -w
+open my $f, '<', "v3_5" or die "$!";
+@lines = <$f>;
+$n_lines = @lines;
+print "$n_lines\n";

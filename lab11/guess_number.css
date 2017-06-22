@@ -1,0 +1,45 @@
+/*
+ * written by andrewt@cse.unsw.edu.au September 2016
+ * as a starting point for COMP2041/9041 assignment 2
+ * http://cgi.cse.unsw.edu.au/~cs2041/assignments/matelook/
+ *
+ * Change (or replace) the CSS below to create you own look-and-feel
+ *
+ * You will probably want to add  CSS to this file too
+ */
+
+.text_style {
+    margin-top: 250px;
+    text-align: center;
+    color: white;
+    font-size: 100px;
+    font-weight: bold;
+}
+
+.background_style {
+    background-color: #6699ff;
+}
+
+.textfile_style {
+    width: 15%;
+    font-size: 100px;
+    background-color: #6699ff;
+    color: white;
+    border: 2px solid white;
+}
+
+.button {
+    font-size: 100px;
+    color: #6699ff;
+    background-color: white;
+}
+.center {
+    margin-top: 100px;
+    margin-left: 800px;
+    background-color: #6699ff;
+}
+.center2 {
+    margin-top: 100px;
+    margin-left: 700px;
+    background-color: #6699ff;
+}

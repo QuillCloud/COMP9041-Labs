@@ -1,0 +1,23 @@
+#!/usr/bin/perl -w
+print "Enter student name: ";
+%hash = ();
+$highest = 0;
+$hname = "";
+while ($name = <STDIN>) {
+    chomp $name;
+    print "Enter library fine: ";
+    $fine = <STDIN>;
+    chomp $fine;
+    if (exists $hash{$name}) {
+	$hash{$name} += int($fine);
+    } else {
+	$hash{$name} = int($fine);
+    }
+    if ($hash{$name} gt $highest) {
+	$hname = $name;
+	$highest = $hash{$name};
+    }
+    print "Enter student name: ";
+}
+
+print "\nExpel $hname whose library fines total \$$highest\n"

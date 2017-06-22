@@ -1,0 +1,10 @@
+#!/usr/bin/perl -w
+if ($#ARGV eq 1) {
+   $filename = $ARGV[0];
+   $p = $ARGV[1];
+   open my $F, "$filename" or die "cannot open $filename $!";
+   while ($line = <$F>) {
+       $line =~ s/$p/\($p\)/g;
+       print "$line";
+   }
+}
